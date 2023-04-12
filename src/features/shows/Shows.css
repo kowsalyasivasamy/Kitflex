@@ -1,0 +1,33 @@
+.main {
+    padding: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.child {
+    flex: 1 0 calc(20% - 16px);
+    margin: 8px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.no-content{
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
