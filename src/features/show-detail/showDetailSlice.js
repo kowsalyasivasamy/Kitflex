@@ -1,13 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getShowInfo } from './showDetailAPI';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getShowInfo } from "./showDetailAPI";
 
 const initialState = {
   showInfo: {},
-  status: 'idle'
+  status: "idle",
 };
 
 export const getShowDetails = createAsyncThunk(
-  'show-detail/getShowInfo',
+  "show-detail/getShowInfo",
   async (showId) => {
     const response = await getShowInfo(showId);
     return response;
@@ -15,18 +15,18 @@ export const getShowDetails = createAsyncThunk(
 );
 
 export const showDetailSlice = createSlice({
-  name: 'showDetail',
+  name: "showDetail",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getShowDetails.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(getShowDetails.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.status = "idle";
         state.showInfo = action.payload;
-      })
+      });
   },
 });
 
