@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getShowInfo } from "./showDetailAPI";
 
 const initialState = {
-  showInfo: {},
+  showInfo: null,
   status: "idle",
 };
 
