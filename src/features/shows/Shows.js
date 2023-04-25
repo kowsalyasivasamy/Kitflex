@@ -34,7 +34,7 @@ export const Shows = () => {
   };
 
   return (
-    <div className="main">
+    <div className="main" data-testid="shows">
       <div className="header">
         <h1>Shows</h1>
         <div className="search-input">
@@ -54,11 +54,13 @@ export const Shows = () => {
                   position="end"
                   className="cursor-pointer"
                   onClick={clearSearch}
+                  data-testid="clear-icon"
                 >
                   <ClearIcon />
                 </InputAdornment>
               ),
             }}
+            inputProps={{ "data-testid": "search-input" }}
             value={searchKey}
             placeholder="Search Shows"
             onChange={(e) => setSearchKey(e.target.value)}
@@ -72,7 +74,7 @@ export const Shows = () => {
       </div>
       {showList.length === 0 ? (
         <div className="no-content">
-          <h2 className="no-content-text">
+          <h2 className="no-content-text" data-testid="no-content-testid">
             No Shows are found for the Applied Filter!
           </h2>
         </div>
@@ -98,7 +100,7 @@ export const Shows = () => {
                       {show.name}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
-                      {show.genres.join(" / ") || "Not Available"}
+                      {show.genres?.join(" / ") || "Not Available"}
                     </Typography>
                     <Typography variant="string" color="text.primary">
                       {show.language}

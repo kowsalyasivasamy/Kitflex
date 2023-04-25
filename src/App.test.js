@@ -1,15 +1,20 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
+import React from "react";
+import "@testing-library/jest-dom";
+import { Provider } from "react-redux";
 
-test('renders learn react link', () => {
-  const { getByText } = render(
-    <Provider store={store}>
+import { renderWithProviders } from "./tests/store.util";
+import { setupStore } from "./app/store";
+import App from "./App";
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+test("renders shows default", () => {
+  const { getByTestId } = renderWithProviders(
+    <Provider store={setupStore({})}>
       <App />
     </Provider>
   );
-
-  expect(getByText(/learn/i)).toBeInTheDocument();
+  expect(getByTestId("shows")).toBeInTheDocument();
 });

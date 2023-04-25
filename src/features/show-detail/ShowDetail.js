@@ -34,7 +34,7 @@ export const ShowDetail = () => {
   return (
     showInfo && (
       <>
-        <div className="detail-page">
+        <div className="detail-page" data-testid="details-section">
           <div className="card-intro">
             <div className="card-img">
               <CardMedia
@@ -58,7 +58,7 @@ export const ShowDetail = () => {
             </div>
           </div>
         </div>
-        <div className="seasons-list">
+        <div className="seasons-list" data-testid="seasons-section">
           {showInfo.seasons?.map((season) => (
             <Accordion key={season.number}>
               <AccordionSummary
