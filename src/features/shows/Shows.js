@@ -10,7 +10,12 @@ import { CardActionArea, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import { getShowList, searchShow, selectShows } from "./showsSlice";
+import {
+  getShowList,
+  searchShow,
+  selectShows,
+  resetShowList,
+} from "./showsSlice";
 
 import "./Shows.css";
 
@@ -24,12 +29,14 @@ export const Shows = () => {
     searchKey.length === 0 && showList.length === 0 && dispatch(getShowList());
   }, [showList, searchKey]);
 
-  const handleSearch = () => {
+  // Search through API calls means add debounce
+  const handleSearch = (searchKey) => {
+    setSearchKey(searchKey);
     dispatch(searchShow(searchKey));
   };
 
   const clearSearch = () => {
-    dispatch(getShowList());
+    dispatch(resetShowList());
     setSearchKey("");
   };
 
@@ -44,7 +51,7 @@ export const Shows = () => {
                 <InputAdornment
                   position="start"
                   className="cursor-pointer"
-                  onClick={handleSearch}
+                  onClick={() => handleSearch(searchKey)}
                 >
                   <SearchIcon />
                 </InputAdornment>
@@ -63,12 +70,7 @@ export const Shows = () => {
             inputProps={{ "data-testid": "search-input" }}
             value={searchKey}
             placeholder="Search Shows"
-            onChange={(e) => setSearchKey(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
+            onChange={(e) => handleSearch(e.target.value.trim())}
           />
         </div>
       </div>

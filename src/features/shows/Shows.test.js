@@ -36,7 +36,6 @@ const renderComponent = (props) => {
       preloadedState: {
         shows: {
           showList: props || shows,
-          status: "idle",
         },
         showDetail: {},
       },

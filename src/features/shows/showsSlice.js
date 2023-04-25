@@ -1,45 +1,58 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchShows, searchShows } from "./showsAPI";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchShows } from "./showsAPI";
 
 const initialState = {
+  allShows: [],
   showList: [],
-  status: "idle",
 };
 
-export const getShowList = createAsyncThunk("shows/fetchShows", async () => {
-  const response = await fetchShows();
-  return response;
-});
+export const getShowList = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetchShows();
+      dispatch(getAllShows(response));
+    } catch (err) {
+      dispatch(getAllShows([]));
+    }
+  };
+};
 
-export const searchShow = createAsyncThunk("shows/searchShow", async (key) => {
-  const response = await searchShows(key);
-  return response.map((val) => val.show);
-});
+export const searchShow = (searchKey) => {
+  return async (dispatch, getState) => {
+    try {
+      const allShows = getState().shows.allShows;
+      const shows = allShows.filter((item) =>
+        item.name.toLowerCase().includes(searchKey.toLowerCase())
+      );
+      dispatch(setShowList(shows));
+    } catch (err) {
+      dispatch(setShowList([]));
+    }
+  };
+};
 
 export const showsSlice = createSlice({
   name: "shows",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getShowList.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getShowList.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.showList = action.payload;
-      })
-      .addCase(searchShow.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(searchShow.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.showList = action.payload;
-      });
+  reducers: {
+    getAllShows: (state, action) => {
+      state.allShows = action.payload;
+      state.showList = action.payload;
+    },
+    setShowList: (state, action) => {
+      state.showList = action.payload;
+    },
+    resetShowList: (state) => {
+      state.showList = state.allShows;
+    },
   },
 });
 
-//selector
+// selector
 export const selectShows = (state) => state.shows.showList;
 
+// action
+export const { getAllShows, setShowList, resetShowList } = showsSlice.actions;
+
+// reducer
 export default showsSlice.reducer;
